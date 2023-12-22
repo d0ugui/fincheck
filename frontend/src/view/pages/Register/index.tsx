@@ -5,7 +5,7 @@ import { Input } from "../../components/Input";
 export function Register() {
   return (
     <>
-      <header className="flex flex-col items-center gap-4">
+      <header className="flex flex-col items-center gap-4 text-center">
         <h1 className="text-2xl font-bold text-gray-900 tracking-[-1px]">
           Crie sua conta
         </h1>
