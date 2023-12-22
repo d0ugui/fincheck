@@ -16,7 +16,11 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export function useLoginController() {
-  const { register, handleSubmit: hookFormHandleSubmit } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit: hookFormHandleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
@@ -24,5 +28,5 @@ export function useLoginController() {
     console.log("chama a api", data);
   });
 
-  return { register, handleSubmit };
+  return { register, handleSubmit, errors };
 }
