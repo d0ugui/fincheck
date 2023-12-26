@@ -1,5 +1,5 @@
 import { signup } from "./signup"
 
-export const AuthService = {
+export const authService = {
   signup,
 }
