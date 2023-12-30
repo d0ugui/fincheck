@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import toast from "react-hot-toast";
-import { PageLoader } from "../../view/components/PageLoader";
+import { LaunchScreen } from "../../view/components/LaunchScreen";
 import { localStorageKeys } from "../config/localStorageKeys";
 import { usersServices } from "../services/usersService";
 
@@ -57,10 +57,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [isError, signout]);
 
-  if (isFetching) {
-    return <PageLoader />;
-  }
-
   return (
     <AuthContext.Provider
       value={{
@@ -69,7 +65,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signout,
       }}
     >
-      {children}
+      <LaunchScreen isLoading={isFetching} />
+
+      {!isFetching && children}
     </AuthContext.Provider>
   );
 }
