@@ -6,7 +6,7 @@ import { AccountsSliderNavigation } from "./AccountsSliderNavigation";
 import { useAccountsController } from "./useAccountsController";
 
 export function Accounts() {
-  const { sliderState, setSliderState } = useAccountsController();
+  const { sliderState, setSliderState, windowWidth } = useAccountsController();
 
   return (
     <div className="flex flex-col bg-teal-900 rounded-2xl w-full h-full px-4 py-8 md:p-10">
@@ -24,11 +24,11 @@ export function Accounts() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col justify-end">
+      <div className="flex-1 flex flex-col justify-end mt-10 md:mt-0">
         <div>
           <Swiper
             spaceBetween={16}
-            slidesPerView={2.1}
+            slidesPerView={windowWidth >= 500 ? 2.1 : 1.2}
             onSlideChange={(swiper) => {
               setSliderState({
                 isBeginning: swiper.isBeginning,
