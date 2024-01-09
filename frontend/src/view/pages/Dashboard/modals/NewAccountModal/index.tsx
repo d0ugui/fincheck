@@ -1,3 +1,4 @@
+import { Button } from "../../../../components/Button";
 import { ColorsDropdownInput } from "../../../../components/ColorsDropdownInput";
 import { Input } from "../../../../components/Input";
 import { InputCurrency } from "../../../../components/InputCurrency";
@@ -46,6 +47,10 @@ export function NewAccountModal() {
           />
           <ColorsDropdownInput />
         </div>
+
+        <Button type="submit" className="w-full mt-6" isLoading={false}>
+          Criar
+        </Button>
       </form>
     </Modal>
   );

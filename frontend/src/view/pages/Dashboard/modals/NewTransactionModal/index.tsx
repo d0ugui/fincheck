@@ -1,3 +1,4 @@
+import { Button } from "../../../../components/Button";
 import { Input } from "../../../../components/Input";
 import { InputCurrency } from "../../../../components/InputCurrency";
 import { Modal } from "../../../../components/Modal";
@@ -65,7 +66,9 @@ export function NewTransactionModal() {
             ]}
           />
 
-
+          <Button type="submit" className="w-full mt-6" isLoading={false}>
+            Criar
+          </Button>
         </div>
       </form>
     </Modal>
