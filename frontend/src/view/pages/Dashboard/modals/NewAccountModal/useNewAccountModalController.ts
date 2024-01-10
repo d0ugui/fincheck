@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -29,6 +29,8 @@ export function useNewAccountModalController() {
     resolver: zodResolver(schema),
   });
 
+  const queryClient = useQueryClient();
+
   const { isPending, mutateAsync } = useMutation({
     mutationFn: bankAccountService.create,
   });
@@ -43,6 +45,7 @@ export function useNewAccountModalController() {
       toast.success('Conta foi cadastrada com sucesso!');
       closeNewAccountModal();
       reset();
+      queryClient.invalidateQueries({ queryKey: ['bankAccounts']})
     } catch {
       toast.error('Erro ao cadastrar a conta!')
     }
