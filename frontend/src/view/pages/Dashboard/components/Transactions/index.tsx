@@ -84,53 +84,45 @@ export function Transactions() {
               </div>
             )}
 
-            {hasTransactions && !isLoading && (
-              <>
-                <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
+            {hasTransactions &&
+              !isLoading &&
+              transactions.map((transaction) => (
+                <div
+                  key={transaction.id}
+                  className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4"
+                >
                   <div className="flex-1 flex items-center gap-3">
-                    <CategoryIcon type="expense" />
+                    <CategoryIcon
+                      type={
+                        transaction.type === "EXPENSE" ? "expense" : "income"
+                      }
+                      category={transaction.category?.icon}
+                    />
 
                     <div>
                       <strong className="tracking-[-0.5px] block">
-                        Almoço
+                        {transaction.name}
                       </strong>
-                      <span className="text-sm text-gray-600">04/06/2023</span>
+                      <span className="text-sm text-gray-600">
+                        {transaction.date}
+                      </span>
                     </div>
                   </div>
 
                   <span
                     className={cn(
-                      "text-red-800 font-medium tracking-[-0.5px]",
+                      "font-medium tracking-[-0.5px]",
+                      transaction.type === "EXPENSE"
+                        ? "text-red-800"
+                        : "text-green-800",
                       !areValuesVisible && "blur-sm"
                     )}
                   >
-                    {formatCurrency(123)}
+                    {transaction.type === "EXPENSE" ? "-" : "+"}
+                    {formatCurrency(transaction.value)}
                   </span>
                 </div>
-
-                <div className="bg-white p-4 rounded-2xl flex items-center justify-between gap-4">
-                  <div className="flex-1 flex items-center gap-3">
-                    <CategoryIcon type="income" />
-
-                    <div>
-                      <strong className="tracking-[-0.5px] block">
-                        Salário
-                      </strong>
-                      <span className="text-sm text-gray-600">04/06/2023</span>
-                    </div>
-                  </div>
-
-                  <span
-                    className={cn(
-                      "text-green-800 font-medium tracking-[-0.5px]",
-                      !areValuesVisible && "blur-sm"
-                    )}
-                  >
-                    {formatCurrency(5000)}
-                  </span>
-                </div>
-              </>
-            )}
+              ))}
           </div>
         </>
       )}

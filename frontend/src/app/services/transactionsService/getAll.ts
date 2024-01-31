@@ -3,8 +3,17 @@ import { httpClient } from "../httpClient";
 
 type TransactionsResponse = Array<Transaction>;
 
-export async function getAll() {
-  const { data } = await httpClient.get<TransactionsResponse>("/bank-accounts");
+type TransactionsFilters = {
+  month: number;
+  year: number;
+  bankAccountId?: string;
+  type?: Transaction["type"];
+};
+
+export async function getAll(filters: TransactionsFilters) {
+  const { data } = await httpClient.get<TransactionsResponse>("/transactions", {
+    params: filters,
+  });
 
   return data;
 }
