@@ -15,6 +15,7 @@ import { useTransactionsController } from "./useTransactionsController";
 
 export function Transactions() {
   const {
+    filters,
     areValuesVisible,
     isInitialLoading,
     transactions,
@@ -22,6 +23,7 @@ export function Transactions() {
     isFiltersModalOpen,
     handleOpenFiltersModal,
     handleCloseFiltersModal,
+    handleChangeMonth,
   } = useTransactionsController();
 
   const hasTransactions = transactions.length > 0;
@@ -51,7 +53,14 @@ export function Transactions() {
             </div>
 
             <div className="mt-6 relative">
-              <Swiper slidesPerView={3} centeredSlides>
+              <Swiper
+                initialSlide={filters.month}
+                slidesPerView={3}
+                centeredSlides
+                onSlideChange={(swiper) => {
+                  handleChangeMonth(swiper.realIndex);
+                }}
+              >
                 <SliderNavigation />
 
                 {MONTHS.map((month, index) => (
