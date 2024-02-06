@@ -11,12 +11,12 @@ import { currencyStringToNumber } from "../../../../../app/utils/currencyStringT
 import { useDashboard } from "../../components/DashboardContext/useDashboard";
 
 const schema = z.object({
-  value: z.string().min(1, 'Informe o valor'),
-  name: z.string().min(1, 'Informe o nome'),
-  categoryId: z.string().min(1, 'Informe a categoria'),
-  bankAccountId: z.string().min(1, 'Informe a conta'),
+  value: z.string().min(1, "Informe o valor"),
+  name: z.string().min(1, "Informe o nome"),
+  categoryId: z.string().min(1, "Informe a categoria"),
+  bankAccountId: z.string().min(1, "Informe a conta"),
   date: z.date(),
-})
+});
 
 type FormData = z.infer<typeof schema>;
 
@@ -24,7 +24,7 @@ export function useNewTransactionModalController() {
   const {
     isNewTransactionModalOpen,
     closeNewTransactionModal,
-    newTransactionType
+    newTransactionType,
   } = useDashboard();
 
   const {
@@ -32,7 +32,7 @@ export function useNewTransactionModalController() {
     handleSubmit: hookFormSubmit,
     formState: { errors },
     control,
-    reset
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -44,7 +44,7 @@ export function useNewTransactionModalController() {
     mutationFn: transactionsService.create,
   });
 
-  const handleSubmit = hookFormSubmit(async data => {
+  const handleSubmit = hookFormSubmit(async (data) => {
     try {
       await mutateAsync({
         ...data,
@@ -53,27 +53,30 @@ export function useNewTransactionModalController() {
         date: data.date.toISOString(),
       });
 
-      queryClient.invalidateQueries({ queryKey: ['transactions']})
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["bankAccounts"] });
 
       toast.success(
-        newTransactionType === 'EXPENSE'
-          ? 'Despesa cadastrada com sucesso!'
-          : 'Receita cadastrada com sucesso!'
+        newTransactionType === "EXPENSE"
+          ? "Despesa cadastrada com sucesso!"
+          : "Receita cadastrada com sucesso!"
       );
       closeNewTransactionModal();
       reset();
     } catch {
       toast.error(
-        newTransactionType === 'EXPENSE'
-          ? 'Erro ao cadastradar a despesa!'
-          : 'Erro ao cadastrar a receita!'
-      )
+        newTransactionType === "EXPENSE"
+          ? "Erro ao cadastradar a despesa!"
+          : "Erro ao cadastrar a receita!"
+      );
     }
-  })
+  });
 
   const categories = useMemo(() => {
-    return categoriesList.filter(category => category.type === newTransactionType)
-  }, [categoriesList, newTransactionType])
+    return categoriesList.filter(
+      (category) => category.type === newTransactionType
+    );
+  }, [categoriesList, newTransactionType]);
 
   return {
     register,
@@ -86,5 +89,5 @@ export function useNewTransactionModalController() {
     accounts,
     categories,
     isLoading,
-  }
+  };
 }
