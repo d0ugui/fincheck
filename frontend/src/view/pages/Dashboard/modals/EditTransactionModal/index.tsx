@@ -1,11 +1,13 @@
 import { Controller } from "react-hook-form";
 import { Transaction } from "../../../../../app/entities/Transaction";
 import { Button } from "../../../../components/Button";
+import { ConfirmDeleteModal } from "../../../../components/ConfirmDeleteModal";
 import { DatePickerInput } from "../../../../components/DatePickerInput";
 import { Input } from "../../../../components/Input";
 import { InputCurrency } from "../../../../components/InputCurrency";
 import { Modal } from "../../../../components/Modal";
 import { Select } from "../../../../components/Select";
+import { TrashIcon } from "../../../../components/icons/TrashIcon";
 import { useEditTransactionModalController } from "./useEditTransactionModalController";
 
 interface EditTransactionModalProps {
@@ -27,15 +29,39 @@ export function EditTransactionModal({
     accounts,
     categories,
     isLoading,
+    isDeleteModalOpen,
+    isLoadingDelete,
+    handleDeleteTransaction,
+    handleCloseDeleteModal,
+    handleOpenDeleteModal,
   } = useEditTransactionModalController(transaction, onClose);
 
   const isExpense = transaction?.type === "EXPENSE";
+
+  if (isDeleteModalOpen) {
+    return (
+      <ConfirmDeleteModal
+        isLoading={isLoadingDelete}
+        onConfirm={handleDeleteTransaction}
+        onClose={handleCloseDeleteModal}
+        title={`Tem certeza que deseja excluir esta ${
+          isExpense ? "despesa?" : "receita?"
+        }`}
+        description="Ao excluir a conta, também serão excluídos todos os registros de receita ee despesas relacionados."
+      />
+    );
+  }
 
   return (
     <Modal
       open={open}
       title={isExpense ? "Editar Despesa" : "Editar Receita"}
       onClose={onClose}
+      rightAction={
+        <button onClick={handleOpenDeleteModal}>
+          <TrashIcon className="text-red-900 w-6 h-6" />
+        </button>
+      }
     >
       <form onSubmit={handleSubmit}>
         <div>
