@@ -45,7 +45,10 @@ export function Transactions() {
 
           <header>
             <div className="flex items-center justify-between">
-              <TransactionTypeDropdown />
+              <TransactionTypeDropdown
+                onSelect={handleChangeFilters("type")}
+                selectType={filters.type}
+              />
 
               <button onClick={handleOpenFiltersModal}>
                 <FilterIcon />
@@ -58,8 +61,6 @@ export function Transactions() {
                 slidesPerView={3}
                 centeredSlides
                 onSlideChange={(swiper) => {
-                  if (swiper.realIndex === filters.month) return;
-
                   handleChangeFilters("month")(swiper.realIndex);
                 }}
               >
